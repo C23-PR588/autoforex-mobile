@@ -18,4 +18,9 @@ data class CurrencyResponse(
 @Parcelize
 data class ListCurrencyItem(
 
-)
+    @field:SerializedName("name")
+    val name: String,
+
+    @field:SerializedName("")
+    val currentValue: Double
+): Parcelable
