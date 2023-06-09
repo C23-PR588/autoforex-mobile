@@ -2,4 +2,6 @@
     <string name="app_name">AutoForex</string>
     <string name="item_name">Currency Name</string>
     <string name="item_current_value">Current Value</string>
+    <string name="currency_name">Currency Name</string>
+    <string name="currency_current_value">Currency Current Value</string>
 </resources>
