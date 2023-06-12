@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.c23pr588.autoforex.data.traffic.ListCurrencyItem
 import com.c23pr588.autoforex.databinding.CurrencyCardBinding
 
@@ -44,7 +43,7 @@ class CurrencyAdapter : ListAdapter<ListCurrencyItem, CurrencyAdapter.MyViewHold
 
     companion object {
         val DIFF_CALLBACK: DiffUtil.ItemCallback<ListCurrencyItem> =
-            object : DiffUtil.ItemCallback<ListCurrencyItem>(){
+            object : DiffUtil.ItemCallback<ListCurrencyItem>() {
                 override fun areItemsTheSame(oldItem: ListCurrencyItem, newItem: ListCurrencyItem): Boolean {
                     return oldItem.name == newItem.name
                 }
