@@ -1,18 +1,28 @@
 package com.c23pr588.autoforex
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.c23pr588.autoforex.currency.CurrencyAdapter
+import com.c23pr588.autoforex.data.local.UserPreference
 import com.c23pr588.autoforex.data.traffic.ListCurrencyItem
 import com.c23pr588.autoforex.databinding.ActivityMainBinding
+import com.c23pr588.autoforex.login.LoginActivity
+import com.c23pr588.autoforex.viewmodel.ViewModelFactory
 
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "username")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val mainViewModel by viewModels<MainViewModel>()
+    private var mainViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +42,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setCurrenciesData(currencies: List<ListCurrencyItem>) {
+        val adapter = CurrencyAdapter()
+        binding.rvCurrencies.adapter = adapter
+    }
+
     fun showLoading(isLoading: Boolean) {
         if (isLoading) {
             binding.progressCircular.visibility = View.VISIBLE
@@ -39,6 +54,4 @@ class MainActivity : AppCompatActivity() {
             binding.progressCircular.visibility = View.GONE
         }
     }
-
-
 }
