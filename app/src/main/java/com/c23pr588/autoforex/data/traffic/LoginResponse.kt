@@ -2,7 +2,7 @@ package com.c23pr588.autoforex.data.traffic
 
 import com.google.gson.annotations.SerializedName
 
-data class RegistrationResponse(
+data class LoginResponse(
     @field:SerializedName("status")
     val status: Int,
 
