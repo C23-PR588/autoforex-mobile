@@ -20,23 +20,17 @@ class CurrencyAdapter (private val listCurrency: List<ListCurrencyItem>) : Recyc
         return ListViewHolder(binding)
     }
 
+    override fun getItemCount(): Int = listCurrency.size
+
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val currency = listCurrency(position)
+        val currency = listCurrency[position]
 
-        holder.binding.tvName.text = currency.
-        
-    }
-
-    inner class MyViewHolder(private val binding: CurrencyCardBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(currenciesData: ListCurrencyItem){
-            binding.apply {
-                tvName.text = currenciesData.name
-                tvCurrentValue.text = currenciesData.currentValue.toString()
-                root.setOnClickListener {
-                    onItemClickCallback.onItemClicked(currenciesData)
-                }
-            }
+        holder.binding.tvName.text = currency.name
+        holder.binding.tvCurrentValue.text = currency.currentValue.toString()
+        holder.itemView.setOnClickListener {
+            onItemClickCallback.onItemClicked(listCurrency[holder.adapterPosition])
         }
+
     }
 
     interface OnItemClickCallback {

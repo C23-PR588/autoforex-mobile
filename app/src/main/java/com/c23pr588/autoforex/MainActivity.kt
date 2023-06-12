@@ -22,7 +22,7 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "us
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private var mainViewModel by viewModels<MainViewModel>()
+    private val mainViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         binding.rvCurrencies.layoutManager = layoutManager
 
         mainViewModel.listCurrency.observe(this) {
-            val adapter = CurrencyAdapter()
+            val adapter = CurrencyAdapter(it)
             binding.rvCurrencies.adapter = adapter
         }
 
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setCurrenciesData(currencies: List<ListCurrencyItem>) {
-        val adapter = CurrencyAdapter()
+        val adapter = CurrencyAdapter(currencies)
         binding.rvCurrencies.adapter = adapter
     }
 
