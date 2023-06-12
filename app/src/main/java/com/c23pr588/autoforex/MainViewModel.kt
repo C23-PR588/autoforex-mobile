@@ -30,9 +30,6 @@ class MainViewModel(private val pref: UserPreference, currencyRepository: Curren
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    val currency: LiveData<PagingData<ListCurrencyItem>> =
-        currencyRepository.getCurrency().cachedIn(viewModelScope)
-
     private val _listCurrency = MutableLiveData<List<ListCurrencyItem>>()
     val listCurrency: LiveData<List<ListCurrencyItem>> = _listCurrency
 
