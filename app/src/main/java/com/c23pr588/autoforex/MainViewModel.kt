@@ -6,6 +6,8 @@ import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.c23pr588.autoforex.data.ApiConfig
+import com.c23pr588.autoforex.data.local.UserPreference
+import com.c23pr588.autoforex.data.traffic.ListCurrencyItem
 //import com.c23pr588.autoforex.data.Currency
 //import com.c23pr588.autoforex.data.CurrencyRepository
 //import com.c23pr588.autoforex.data.CurrencyResponse
@@ -17,7 +19,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel(private val pref: TokenPreference, storyRepository: StoryRepository): ViewModel() {
+class MainViewModel(private val pref: UserPreference, storyRepository: StoryRepository): ViewModel() {
 
     companion object {
         const val TAG = "MainViewModel"
@@ -26,7 +28,7 @@ class MainViewModel(private val pref: TokenPreference, storyRepository: StoryRep
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    val story: LiveData<PagingData<Story>> =
+    val currency: LiveData<PagingData<ListCurrencyItem>> =
         storyRepository.getStory().cachedIn(viewModelScope)
 
     private val _listStory = MutableLiveData<List<Story>>()
