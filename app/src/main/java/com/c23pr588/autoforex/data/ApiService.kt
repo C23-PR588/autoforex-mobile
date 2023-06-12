@@ -1,5 +1,6 @@
 package com.c23pr588.autoforex.data
 
+import com.c23pr588.autoforex.data.traffic.CurrencyResponse
 import com.c23pr588.autoforex.data.traffic.LoginResponse
 import com.c23pr588.autoforex.data.traffic.RegistrationResponse
 import okhttp3.MultipartBody
@@ -17,6 +18,11 @@ interface ApiService {
     fun registration(
         @Body request: Registration
     ): Call<RegistrationResponse>
+
+    @GET("currencies/data")
+    fun getCurrenciesData(
+
+    ): Call<CurrencyResponse>
 }
 
 data class Login (
