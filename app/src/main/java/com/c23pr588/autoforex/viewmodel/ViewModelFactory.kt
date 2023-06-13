@@ -15,7 +15,7 @@ class ViewModelFactory(private val pref: UserPreference, private val context : C
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(RegistrationViewModel::class.java)) {
-            return RegistrationViewModel() as T
+            return RegistrationViewModel(pref) as T
         }
         if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
             return LoginViewModel(pref) as T

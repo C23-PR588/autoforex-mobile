@@ -10,7 +10,8 @@ import com.c23pr588.autoforex.databinding.ActivityCurrencyDetailBinding
 class CurrencyDetailActivity : AppCompatActivity() {
 
     companion object {
-        const val EXTRA_CURRENCY = "extra_currency"
+        const val EXTRA_NAME = "extra_name"
+        const val EXTRA_CURRENT_VALUE = "extra_current_value"
     }
 
     private lateinit var binding: ActivityCurrencyDetailBinding
@@ -20,19 +21,20 @@ class CurrencyDetailActivity : AppCompatActivity() {
         binding = ActivityCurrencyDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupView()
+        binding.tvDetailName.text = intent.getStringExtra(EXTRA_NAME)
+        binding.tvDetailCurrentValue.text = intent.getStringExtra(EXTRA_CURRENT_VALUE)
     }
 
-    private fun setupView() {
-        val currency = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra(EXTRA_CURRENCY, CurrencyAttributes::class.java)
-        } else {
-            intent.getParcelableExtra(EXTRA_CURRENCY)
-        }
-
-        if (currency != null) {
-            binding.tvDetailName.text = currency.name
-            binding.tvDetailCurrentValue.text = currency.currentValue.toString()
-        }
-    }
+//    private fun setupView() {
+//        val currency = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            intent.getParcelableExtra(EXTRA_CURRENCY, CurrencyAttributes::class.java)
+//        } else {
+//            intent.getParcelableExtra(EXTRA_CURRENCY)
+//        }
+//
+//        if (currency != null) {
+//            binding.tvDetailName.text = currency.name
+//            binding.tvDetailCurrentValue.text = currency.currentValue.toString()
+//        }
+//    }
 }

@@ -7,6 +7,8 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.c23pr588.autoforex.data.ApiConfig
 import com.c23pr588.autoforex.data.CurrencyRepository
+import com.c23pr588.autoforex.data.DummiesIDR
+import com.c23pr588.autoforex.data.local.UserModel
 import com.c23pr588.autoforex.data.local.UserPreference
 import com.c23pr588.autoforex.data.traffic.CurrencyResponse
 import com.c23pr588.autoforex.data.traffic.ListCurrencyItem
@@ -33,41 +35,47 @@ class MainViewModel(private val pref: UserPreference, currencyRepository: Curren
     private val _listCurrency = MutableLiveData<List<ListCurrencyItem>>()
     val listCurrency: LiveData<List<ListCurrencyItem>> = _listCurrency
 
-    fun getIsLogin(): LiveData<Boolean> {
-        return pref.fetchUser().asLiveData()
+    fun getUser(): LiveData<UserModel> {
+        return pref.getUser().asLiveData()
     }
 
     fun logout() {
         viewModelScope.launch {
-            pref.deleteUser()
+            pref.logout()
         }
     }
 
     fun getAllCurrencies() {
         _isLoading.value = true
-        val token = runBlocking {
-            pref.fetchUser().first()
-        }
-        Log.d(TAG, token.toString())
-        val client = ApiConfig.getApiService().getCurrenciesData()
-        client.enqueue(object : Callback<CurrencyResponse> {
-            override fun onResponse(
-                call: Call<CurrencyResponse>,
-                response: Response<CurrencyResponse>
-            ) {
-                _isLoading.value = false
-                if (response.isSuccessful && response.body()?.error == false) {
-                    _listCurrency.value = response.body()?.listCurrency
-                    Log.d(TAG, "Request Successful")
-                } else {
-                    Log.d(TAG, response.message())
-                }
-            }
-
-            override fun onFailure(call: Call<CurrencyResponse>, t: Throwable) {
-                _isLoading.value = false
-                Log.d(TAG, t.message.toString())
-            }
-        })
+        _listCurrency.value = DummiesIDR.listCurrencyData
+        _isLoading.value = false
+//        val token = runBlocking {
+//            pref.fetchUser().first()
+//        }
+//        Log.d(TAG, token.toString())
+//        val client = ApiConfig.getApiService().getCurrenciesData()
+//        client.enqueue(object : Callback<CurrencyResponse> {
+//            override fun onResponse(
+//                call: Call<CurrencyResponse>,
+//                response: Response<CurrencyResponse>
+//            ) {
+//                Log.d(TAG, "onResponse: ONSUCCESS BOS")
+//                _isLoading.value = false
+//                if (response.isSuccessful && response.body()?.error == false) {
+//                    _listCurrency.value = response.body()?.listCurrency
+//                    Log.d(TAG, "Request Successful")
+//                } else {
+//                    Log.d(TAG, response.message())
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<CurrencyResponse>, t: Throwable) {
+//                Log.d(TAG, "onFailure: ONFAILURE BOS")
+//                _isLoading.value = false
+//                Log.d(TAG, t.message.toString())
+//            }
+//        })
     }
+
+
 }

@@ -8,4 +8,7 @@
     <string name="login">Login</string>
     <string name="welcome">Welcome</string>
     <string name="user_currency">IDR 1.000.000</string>
+    <string name="logout">Logout</string>
+    <string name="prediction">Predict</string>
+    <string name="buy">Buy</string>
 </resources>
