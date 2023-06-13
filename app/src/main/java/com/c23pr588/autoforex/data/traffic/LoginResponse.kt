@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class LoginResponse(
     @field:SerializedName("status")
-    val status: Int,
+    val status: Int? = null,
 
     @field:SerializedName("error")
     val error: Boolean? = null,

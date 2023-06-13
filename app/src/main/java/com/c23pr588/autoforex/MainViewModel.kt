@@ -8,6 +8,7 @@ import androidx.paging.cachedIn
 import com.c23pr588.autoforex.data.ApiConfig
 import com.c23pr588.autoforex.data.CurrencyRepository
 import com.c23pr588.autoforex.data.DummiesIDR
+import com.c23pr588.autoforex.data.local.UserModel
 import com.c23pr588.autoforex.data.local.UserPreference
 import com.c23pr588.autoforex.data.traffic.CurrencyResponse
 import com.c23pr588.autoforex.data.traffic.ListCurrencyItem
@@ -34,13 +35,13 @@ class MainViewModel(private val pref: UserPreference, currencyRepository: Curren
     private val _listCurrency = MutableLiveData<List<ListCurrencyItem>>()
     val listCurrency: LiveData<List<ListCurrencyItem>> = _listCurrency
 
-    fun getIsLogin(): LiveData<Boolean> {
-        return pref.fetchUser().asLiveData()
+    fun getUser(): LiveData<UserModel> {
+        return pref.getUser().asLiveData()
     }
 
     fun logout() {
         viewModelScope.launch {
-            pref.deleteUser()
+            pref.logout()
         }
     }
 

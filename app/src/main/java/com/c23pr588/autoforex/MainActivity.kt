@@ -4,8 +4,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import androidx.activity.viewModels
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -17,7 +18,6 @@ import com.c23pr588.autoforex.data.traffic.ListCurrencyItem
 import com.c23pr588.autoforex.databinding.ActivityMainBinding
 import com.c23pr588.autoforex.login.LoginActivity
 import com.c23pr588.autoforex.viewmodel.ViewModelFactory
-import com.c23pr588.autoforex.MainViewModel
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "username")
 class MainActivity : AppCompatActivity() {
@@ -35,17 +35,16 @@ class MainActivity : AppCompatActivity() {
             ViewModelFactory(UserPreference.getInstance(dataStore), this@MainActivity)
         )[MainViewModel::class.java]
 
-//        mainViewModel.getIsLogin().observe(this) {
-//            if (it == false) {
-//                val intent = Intent(this@MainActivity, LoginActivity::class.java)
-//                startActivity(intent)
-//                this@MainActivity.finish()
-//            }
-//        }
+        mainViewModel.getUser().observe(this) {
+            if (!it.isLogin) {
+                val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                startActivity(intent)
+                this@MainActivity.finish()
+            }
+        }
 
         val layoutManager = LinearLayoutManager(this)
         binding.rvCurrencies.layoutManager = layoutManager
-
         mainViewModel.getAllCurrencies()
 
         mainViewModel.listCurrency.observe(this) {
@@ -68,5 +67,20 @@ class MainActivity : AppCompatActivity() {
         } else {
             binding.progressCircular.visibility = View.GONE
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.ic_logout) {
+            mainViewModel.logout()
+            val intent = Intent(this@MainActivity, LoginActivity::class.java)
+            startActivity(intent)
+            this@MainActivity.finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

@@ -10,12 +10,14 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.c23pr588.autoforex.MainActivity
 import com.c23pr588.autoforex.MainViewModel
+import com.c23pr588.autoforex.data.local.UserModel
 import com.c23pr588.autoforex.data.local.UserPreference
 import com.c23pr588.autoforex.dataStore
 import com.c23pr588.autoforex.databinding.ActivityLoginBinding
@@ -24,10 +26,11 @@ import com.c23pr588.autoforex.viewmodel.LoginViewModel
 import com.c23pr588.autoforex.viewmodel.RegistrationViewModel
 import com.c23pr588.autoforex.viewmodel.ViewModelFactory
 
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "username")
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var loginViewModel: LoginViewModel
+    private lateinit var user: UserModel
 
     private var username: String = ""
     private var password: String = ""
@@ -41,6 +44,10 @@ class LoginActivity : AppCompatActivity() {
             this@LoginActivity,
             ViewModelFactory(UserPreference.getInstance(dataStore), this@LoginActivity)
         )[LoginViewModel::class.java]
+
+        loginViewModel.getUser().observe(this, { user ->
+            this.user = user
+        })
 
         binding.edLoginUsername.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -63,6 +70,8 @@ class LoginActivity : AppCompatActivity() {
         })
 
         binding.submitLogin.setOnClickListener {
+            username = binding.edLoginUsername.text.toString()
+            password = binding.edLoginPassword.text.toString()
             if (username.isEmpty()) {
                 Toast.makeText(this@LoginActivity, "Silakan masukkan Username.", Toast.LENGTH_SHORT)
                     .show()
@@ -70,30 +79,50 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this@LoginActivity, "Silakan masukkan Password.", Toast.LENGTH_SHORT)
                     .show()
             } else {
-                loginViewModel.getLoginDetails(username, password)
-
+                loginViewModel.login()
                 loginViewModel.isLoading.observe(this) {
                     if (it) {
                         binding.progressLogin.visibility = View.VISIBLE
                     } else {
                         binding.progressLogin.visibility = View.GONE
-                    }
-                }
-
-                loginViewModel.loginDetails.observe(this) {
-                    if (it.status == 200) {
-                        Log.d("TES", "STATUS 200")
-                        loginViewModel.saveUsername(username)
-                        loginViewModel.savePassword(password)
-                        loginViewModel.saveLogin()
                         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-
-                    } else {
-                        Log.d("tes", "STATUS BUKAN 200 KAPTEN")
                     }
                 }
             }
         }
+
+//        binding.submitLogin.setOnClickListener {
+//            if (username.isEmpty()) {
+//                Toast.makeText(this@LoginActivity, "Silakan masukkan Username.", Toast.LENGTH_SHORT)
+//                    .show()
+//            } else if (password.isEmpty()) {
+//                Toast.makeText(this@LoginActivity, "Silakan masukkan Password.", Toast.LENGTH_SHORT)
+//                    .show()
+//            } else {
+//                loginViewModel.getLoginDetails(username, password)
+//
+//                loginViewModel.isLoading.observe(this) {
+//                    if (it) {
+//                        binding.progressLogin.visibility = View.VISIBLE
+//                    } else {
+//                        binding.progressLogin.visibility = View.GONE
+//                    }
+//                }
+//
+//                loginViewModel.loginDetails.observe(this) {
+//                    if (it.status == 404) {
+//                        Log.d("TES", "STATUS 200")
+//                        loginViewModel.saveUsername(username)
+//                        loginViewModel.savePassword(password)
+//                        loginViewModel.saveLogin()
+//                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+//
+//                    } else {
+//                        Log.d("tes", "STATUS BUKAN 404 KAPTEN")
+//                    }
+//                }
+//            }
+//        }
 
         binding.registerText.setOnClickListener {
             startActivity(Intent(this@LoginActivity, RegistrationActivity::class.java))
