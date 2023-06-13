@@ -2,54 +2,38 @@ package com.c23pr588.autoforex.currency
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.c23pr588.autoforex.data.traffic.ListCurrencyItem
 import com.c23pr588.autoforex.databinding.CurrencyCardBinding
 
-class CurrencyAdapter : ListAdapter<ListCurrencyItem, CurrencyAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class CurrencyAdapter (private val listCurrency: List<ListCurrencyItem>) : RecyclerView.Adapter<CurrencyAdapter.ListViewHolder>() {
     private lateinit var onItemClickCallback: OnItemClickCallback
+
+    class ListViewHolder (var binding: CurrencyCardBinding): RecyclerView.ViewHolder(binding.root)
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback){
         this.onItemClickCallback = onItemClickCallback
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding = CurrencyCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MyViewHolder(binding)
+        return ListViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val currenciesData = getItem(position)
-        holder.bind(currenciesData)
-    }
+    override fun getItemCount(): Int = listCurrency.size
 
-    inner class MyViewHolder(private val binding: CurrencyCardBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(currenciesData: ListCurrencyItem){
-            binding.apply {
-                tvName.text = currenciesData.name
-                tvCurrentValue.text = currenciesData.currentValue.toString()
-                root.setOnClickListener {
-                    onItemClickCallback.onItemClicked(currenciesData)
-                }
-            }
+    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
+        val currency = listCurrency[position]
+
+        holder.binding.tvName.text = currency.name
+        holder.binding.tvCurrentValue.text = currency.currentValue.toString()
+        holder.itemView.setOnClickListener {
+            onItemClickCallback.onItemClicked(listCurrency[holder.adapterPosition])
         }
+
     }
 
     interface OnItemClickCallback {
         fun onItemClicked(listCurrencyItem: ListCurrencyItem)
-    }
-
-    companion object {
-        val DIFF_CALLBACK: DiffUtil.ItemCallback<ListCurrencyItem> =
-            object : DiffUtil.ItemCallback<ListCurrencyItem>() {
-                override fun areItemsTheSame(oldItem: ListCurrencyItem, newItem: ListCurrencyItem): Boolean {
-                    return oldItem.name == newItem.name
-                }
-                override fun areContentsTheSame(oldItem: ListCurrencyItem, newItem: ListCurrencyItem): Boolean {
-                    return oldItem.currentValue == newItem.currentValue
-                }
-            }
     }
 }

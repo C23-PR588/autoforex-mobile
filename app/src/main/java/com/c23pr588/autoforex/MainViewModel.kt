@@ -6,7 +6,9 @@ import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.c23pr588.autoforex.data.ApiConfig
+import com.c23pr588.autoforex.data.CurrencyRepository
 import com.c23pr588.autoforex.data.local.UserPreference
+import com.c23pr588.autoforex.data.traffic.CurrencyResponse
 import com.c23pr588.autoforex.data.traffic.ListCurrencyItem
 //import com.c23pr588.autoforex.data.Currency
 //import com.c23pr588.autoforex.data.CurrencyRepository
@@ -19,7 +21,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel(private val pref: UserPreference, storyRepository: StoryRepository): ViewModel() {
+class MainViewModel(private val pref: UserPreference, currencyRepository: CurrencyRepository): ViewModel() {
 
     companion object {
         const val TAG = "MainViewModel"
@@ -28,44 +30,41 @@ class MainViewModel(private val pref: UserPreference, storyRepository: StoryRepo
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    val currency: LiveData<PagingData<ListCurrencyItem>> =
-        storyRepository.getStory().cachedIn(viewModelScope)
+    private val _listCurrency = MutableLiveData<List<ListCurrencyItem>>()
+    val listCurrency: LiveData<List<ListCurrencyItem>> = _listCurrency
 
-    private val _listStory = MutableLiveData<List<Story>>()
-    val listStory: LiveData<List<Story>> = _listStory
-
-    fun getToken(): LiveData<String> {
-        return pref.getToken().asLiveData()
+    fun getIsLogin(): LiveData<Boolean> {
+        return pref.fetchUser().asLiveData()
     }
 
     fun logout() {
         viewModelScope.launch {
-            pref.logout()
+            pref.deleteUser()
         }
     }
 
-    fun getAllStory() {
+    fun getAllCurrencies() {
         _isLoading.value = true
         val token = runBlocking {
-            pref.getToken().first()
+            pref.fetchUser().first()
         }
-        Log.d(TAG, token)
-        val client = APIConfig.getAPIService().getStory("Bearer $token")
-        client.enqueue(object : Callback<StoryResponse> {
+        Log.d(TAG, token.toString())
+        val client = ApiConfig.getApiService().getCurrenciesData()
+        client.enqueue(object : Callback<CurrencyResponse> {
             override fun onResponse(
-                call: Call<StoryResponse>,
-                response: Response<StoryResponse>
+                call: Call<CurrencyResponse>,
+                response: Response<CurrencyResponse>
             ) {
                 _isLoading.value = false
                 if (response.isSuccessful && response.body()?.error == false) {
-                    _listStory.value = response.body()?.listStory
+                    _listCurrency.value = response.body()?.listCurrency
                     Log.d(TAG, "Request Successful")
                 } else {
                     Log.d(TAG, response.message())
                 }
             }
 
-            override fun onFailure(call: Call<StoryResponse>, t: Throwable) {
+            override fun onFailure(call: Call<CurrencyResponse>, t: Throwable) {
                 _isLoading.value = false
                 Log.d(TAG, t.message.toString())
             }

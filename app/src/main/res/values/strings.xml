@@ -6,4 +6,6 @@
     <string name="currency_current_value">Currency Current Value</string>
     <string name="register">Register</string>
     <string name="login">Login</string>
+    <string name="welcome">Welcome</string>
+    <string name="user_currency">IDR 1.000.000</string>
 </resources>
