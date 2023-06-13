@@ -17,17 +17,31 @@ import com.c23pr588.autoforex.data.traffic.ListCurrencyItem
 import com.c23pr588.autoforex.databinding.ActivityMainBinding
 import com.c23pr588.autoforex.login.LoginActivity
 import com.c23pr588.autoforex.viewmodel.ViewModelFactory
+import com.c23pr588.autoforex.MainViewModel
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "username")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val mainViewModel by viewModels<MainViewModel>()
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        mainViewModel = ViewModelProvider(
+            this@MainActivity,
+            ViewModelFactory(UserPreference.getInstance(dataStore), this@MainActivity)
+        )[MainViewModel::class.java]
+
+        mainViewModel.getIsLogin().observe(this) {
+            if (it == false) {
+                val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                startActivity(intent)
+                this@MainActivity.finish()
+            }
+        }
 
         val layoutManager = LinearLayoutManager(this)
         binding.rvCurrencies.layoutManager = layoutManager
@@ -47,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         binding.rvCurrencies.adapter = adapter
     }
 
-    fun showLoading(isLoading: Boolean) {
+    private fun showLoading(isLoading: Boolean) {
         if (isLoading) {
             binding.progressCircular.visibility = View.VISIBLE
         } else {
