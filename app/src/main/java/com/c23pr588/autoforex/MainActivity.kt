@@ -35,20 +35,21 @@ class MainActivity : AppCompatActivity() {
             ViewModelFactory(UserPreference.getInstance(dataStore), this@MainActivity)
         )[MainViewModel::class.java]
 
-        mainViewModel.getIsLogin().observe(this) {
-            if (it == false) {
-                val intent = Intent(this@MainActivity, LoginActivity::class.java)
-                startActivity(intent)
-                this@MainActivity.finish()
-            }
-        }
+//        mainViewModel.getIsLogin().observe(this) {
+//            if (it == false) {
+//                val intent = Intent(this@MainActivity, LoginActivity::class.java)
+//                startActivity(intent)
+//                this@MainActivity.finish()
+//            }
+//        }
 
         val layoutManager = LinearLayoutManager(this)
         binding.rvCurrencies.layoutManager = layoutManager
 
+        mainViewModel.getAllCurrencies()
+
         mainViewModel.listCurrency.observe(this) {
-            val adapter = CurrencyAdapter(it)
-            binding.rvCurrencies.adapter = adapter
+            setCurrenciesData(currencies = it)
         }
 
         mainViewModel.isLoading.observe(this) {

@@ -32,6 +32,7 @@ class LoginViewModel (private val pref: UserPreference): ViewModel() {
                 response: Response<LoginResponse>
             ) {
                 _isLoading.value = false
+                Log.d(TAG, "INI DI ONSUC")
                 if (response.isSuccessful) {
                     _loginDetails.value = response.body()
                     Log.e(TAG, "onSuccess: ${response.body()}")
@@ -42,6 +43,7 @@ class LoginViewModel (private val pref: UserPreference): ViewModel() {
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 _isLoading.value = false
+                Log.d(TAG, "INI DI ONFAIL")
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
             }
         })

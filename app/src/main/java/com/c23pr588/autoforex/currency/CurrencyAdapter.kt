@@ -3,6 +3,8 @@ package com.c23pr588.autoforex.currency
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.c23pr588.autoforex.R
 import com.c23pr588.autoforex.data.traffic.ListCurrencyItem
 import com.c23pr588.autoforex.databinding.CurrencyCardBinding
 
@@ -27,13 +29,17 @@ class CurrencyAdapter (private val listCurrency: List<ListCurrencyItem>) : Recyc
 
         holder.binding.tvName.text = currency.name
         holder.binding.tvCurrentValue.text = currency.currentValue.toString()
+        holder.binding.imgItemPhoto.setImageResource(R.drawable.moneybag)
         holder.itemView.setOnClickListener {
             onItemClickCallback.onItemClicked(listCurrency[holder.adapterPosition])
         }
 
+
     }
 
-    interface OnItemClickCallback {
-        fun onItemClicked(listCurrencyItem: ListCurrencyItem)
-    }
-}
+//    interface OnItemClickCallback {
+//        fun onItemClicked(listCurrencyItem: ListCurrencyItem) {
+//
+//        }
+//    }
+//}
