@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.c23pr588.autoforex.MainActivity
 import com.c23pr588.autoforex.data.CurrencyAttributes
@@ -28,6 +29,10 @@ class CurrencyDetailActivity : AppCompatActivity() {
         binding.tvDetailName.text = intent.getStringExtra(EXTRA_NAME)
         binding.tvDetailCurrentValue.text = intent.getStringExtra(EXTRA_CURRENT_VALUE)
 
+        binding.btnPrediction.setOnClickListener {
+            Toast.makeText(this@CurrencyDetailActivity, "This feature has yet to be implemented.", Toast.LENGTH_SHORT)
+                .show()
+        }
         binding.btnBuy.setOnClickListener {
             val intent = Intent(this@CurrencyDetailActivity, PurchaseActivity::class.java)
             intent.putExtra(PurchaseActivity.EXTRA_NAME, EXTRA_NAME)
