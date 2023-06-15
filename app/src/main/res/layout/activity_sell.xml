@@ -4,61 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:padding="16dp"
+    tools:context=".transaction.SellActivity">
 
     <TextView
-        android:id="@+id/tv_welcome"
+        android:id="@+id/tv_sold_currency"
         android:layout_width="94dp"
         android:layout_height="58dp"
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:padding="16dp"
-        android:text="@string/welcome"
+        android:text="@string/currency_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/tv_user_currency"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:padding="16dp"
-        android:text="@string/user_currency"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_welcome"
-        app:layout_constraintVertical_bias="0.0" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_currencies"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:padding="16dp"
+    <EditText
+        android:id="@+id/ed_sell_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Sell Price (IDR)"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_user_currency" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.37" />
+
+    <Button
+        android:id="@+id/submit_sell"
+        android:text="@string/sell"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed_sell_price"
+        android:layout_marginTop="16dp"/>
 
     <ProgressBar
-        android:id="@+id/progress_circular"
-        android:padding="16dp"
+        android:id="@+id/progress_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_currencies"
-        app:layout_constraintVertical_bias="1.0"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toBottomOf="@+id/submit_sell"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

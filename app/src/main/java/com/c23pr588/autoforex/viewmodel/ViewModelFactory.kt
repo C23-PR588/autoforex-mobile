@@ -23,6 +23,12 @@ class ViewModelFactory(private val pref: UserPreference, private val context : C
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
             return MainViewModel(pref, Injection.provideRepository(context)) as T
         }
+        if (modelClass.isAssignableFrom(PurchaseViewModel::class.java)) {
+            return PurchaseViewModel(pref) as T
+        }
+        if (modelClass.isAssignableFrom(SellViewModel::class.java)) {
+            return SellViewModel(pref) as T
+        }
 
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }
