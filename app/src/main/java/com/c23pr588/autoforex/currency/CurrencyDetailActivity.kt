@@ -1,11 +1,14 @@
 package com.c23pr588.autoforex.currency
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bumptech.glide.Glide
+import com.c23pr588.autoforex.MainActivity
 import com.c23pr588.autoforex.data.CurrencyAttributes
 import com.c23pr588.autoforex.databinding.ActivityCurrencyDetailBinding
+import com.c23pr588.autoforex.transaction.PurchaseActivity
 
 class CurrencyDetailActivity : AppCompatActivity() {
 
@@ -23,6 +26,21 @@ class CurrencyDetailActivity : AppCompatActivity() {
 
         binding.tvDetailName.text = intent.getStringExtra(EXTRA_NAME)
         binding.tvDetailCurrentValue.text = intent.getStringExtra(EXTRA_CURRENT_VALUE)
+
+        binding.btnBuy.setOnClickListener {
+            val intent = Intent(this@CurrencyDetailActivity, PurchaseActivity::class.java)
+            intent.putExtra(PurchaseActivity.EXTRA_NAME, EXTRA_NAME)
+            startActivity(intent)
+//            val mContext = holder.itemView.context
+//
+//            holder.itemView.setOnClickListener {
+//                val moveDetail = Intent(mContext, CurrencyDetailActivity::class.java)
+//                moveDetail.putExtra(CurrencyDetailActivity.EXTRA_NAME, currency.name)
+//                moveDetail.putExtra(CurrencyDetailActivity.EXTRA_CURRENT_VALUE, currency.currentValue.toString())
+//                mContext.startActivity(moveDetail)
+//            }
+//            startActivity(Intent(this@CurrencyDetailActivity, PurchaseActivity::class.java))
+        }
     }
 
 //    private fun setupView() {
