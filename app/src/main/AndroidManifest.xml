@@ -15,10 +15,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".SellActivity"
+            android:name=".transaction.SellActivity"
             android:exported="false" />
         <activity
-            android:name=".PurchaseActivity"
+            android:name=".transaction.PurchaseActivity"
             android:exported="false" />
         <activity
             android:name=".registration.RegistrationActivity"
