@@ -9,6 +9,7 @@ import com.c23pr588.autoforex.MainActivity
 import com.c23pr588.autoforex.data.CurrencyAttributes
 import com.c23pr588.autoforex.databinding.ActivityCurrencyDetailBinding
 import com.c23pr588.autoforex.transaction.PurchaseActivity
+import com.c23pr588.autoforex.transaction.SellActivity
 
 class CurrencyDetailActivity : AppCompatActivity() {
 
@@ -31,17 +32,15 @@ class CurrencyDetailActivity : AppCompatActivity() {
             val intent = Intent(this@CurrencyDetailActivity, PurchaseActivity::class.java)
             intent.putExtra(PurchaseActivity.EXTRA_NAME, EXTRA_NAME)
             startActivity(intent)
-//            val mContext = holder.itemView.context
-//
-//            holder.itemView.setOnClickListener {
-//                val moveDetail = Intent(mContext, CurrencyDetailActivity::class.java)
-//                moveDetail.putExtra(CurrencyDetailActivity.EXTRA_NAME, currency.name)
-//                moveDetail.putExtra(CurrencyDetailActivity.EXTRA_CURRENT_VALUE, currency.currentValue.toString())
-//                mContext.startActivity(moveDetail)
-//            }
-//            startActivity(Intent(this@CurrencyDetailActivity, PurchaseActivity::class.java))
+        }
+
+        binding.btnSell.setOnClickListener {
+            val intent = Intent(this@CurrencyDetailActivity, SellActivity::class.java)
+            intent.putExtra(SellActivity.EXTRA_NAME, EXTRA_NAME)
+            startActivity(intent)
         }
     }
+}
 
 //    private fun setupView() {
 //        val currency = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -55,4 +54,3 @@ class CurrencyDetailActivity : AppCompatActivity() {
 //            binding.tvDetailCurrentValue.text = currency.currentValue.toString()
 //        }
 //    }
-}

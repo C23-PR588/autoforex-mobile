@@ -13,10 +13,12 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.c23pr588.autoforex.currency.CurrencyAdapter
+import com.c23pr588.autoforex.currency.CurrencyDetailActivity
 import com.c23pr588.autoforex.data.local.UserPreference
 import com.c23pr588.autoforex.data.traffic.ListCurrencyItem
 import com.c23pr588.autoforex.databinding.ActivityMainBinding
 import com.c23pr588.autoforex.login.LoginActivity
+import com.c23pr588.autoforex.transaction.PurchaseActivity
 import com.c23pr588.autoforex.viewmodel.ViewModelFactory
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "username")
